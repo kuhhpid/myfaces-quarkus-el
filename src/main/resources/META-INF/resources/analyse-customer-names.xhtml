@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+</h:head>
+
+<h:body>
+    <h:form>
+        <p:breadCrumb>
+            <p:menuitem outcome="home">Home</p:menuitem>
+            <p:menuitem outcome="analyse-customer-names">Kundenname Analyse</p:menuitem>
+        </p:breadCrumb>
+    </h:form>
+    <p:panel header="Information" toggleable="true" collapsed="true">
+        <p>
+            Analyse der Kundennamen auf doppelte Kunden. Die Kundennamen werden durch eine sogenannte Fuzzy-Suche mit einander verglichen und anhand eines Scores von 0-100 bewertet.
+            Der Score 0 beschreibt, dass es keinerlei Übereinstimmung gibt und der Score 100, dass die Namen identisch sind. Da die Anlyse etwas Zeit in Anspruch nimmt kann, um die Score zu testen,
+            die maximal zu analysierenden Kundenanzahl eingestellt werden.
+        </p>
+    </p:panel>
+    <h:form>
+        <p:blockUI trigger="actionRunAnalyze" block="@form"/>
+
+        <p:panel id="preferences" header="Einstellungen" toggleable="true">
+
+            <div style="display: grid; grid-template-columns: min-content auto; grid-gap: 10px; align-items: center">
+                <p:outputLabel>Kundenanzahl</p:outputLabel>
+                <h:outputText value="#{analyseCustomerNames.totalCustomerCount}"></h:outputText>
+                <p:outputLabel for="limitAnalyseCustomersCount">Kundenanzahl einschränken</p:outputLabel>
+                <p:selectOneButton id="limitAnalyseCustomersCount"
+                                   value="#{analyseCustomerNames.limitAnalyseCustomersCount}">
+                    <f:selectItem itemValue="100" itemLabel="100"/>
+                    <f:selectItem itemValue="500" itemLabel="500"/>
+                    <f:selectItem itemValue="5000" itemLabel="Alle"/>
+                </p:selectOneButton>
+                <p:outputLabel for="minScore">Mindest Score</p:outputLabel>
+                <p:inputNumber id="minScore" minValue="80" maxValue="100" modifyValueOnWheel="true"
+                               value="#{analyseCustomerNames.minScore}"/>
+                <p:outputLabel for="friendsCount">Mindest-Treffer</p:outputLabel>
+                <p:inputNumber id="friendsCount" minValue="1" value="#{analyseCustomerNames.friendsCount}"/>
+                <p:outputLabel for="searchTerm">Suchbegriff</p:outputLabel>
+                <p:inputText id="searchTerm" value="#{analyseCustomerNames.searchTerm}"/>
+                <span/>
+
+                <p:commandButton id="actionRunAnalyze" value="Analyse starten"
+                                 action="#{analyseCustomerNames.actionRunAnalyze()}" process="preferences"
+                                 update="@form"/>
+            </div>
+
+        </p:panel>
+        <p:panel header="Ergebnisse (#{analyseCustomerNames.customers.size()})" id="analyseResults" rendered="#{analyseCustomerNames.customers!=null}">
+            <p:accordionPanel value="#{analyseCustomerNames.customers}" var="customer" multiple="true" >
+
+                <p:tab title="#{customer.name()} (#{customer.friends().size()})">
+                    <p>
+                        <h:outputLink target="_blank" value="https://httpbin.org/anything/#{customer.id()}">#{customer.name()}</h:outputLink> #{friend.customerNumber()}
+                    </p>
+                    <h:dataTable value="#{customer.friends()}" var="friend">
+                        <p:column>
+                            <h:outputText value="#{friend.score()}" style="font-family: monospace; font-size: 0.8em;"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputLink target="_blank" value="https://httpbin.org/anything/#{friend.id()}">#{friend.name()}</h:outputLink>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{friend.customerNumber()}" rendered="#{friend.customerNumber()!=null}"/>
+                        </p:column>
+                    </h:dataTable>
+                </p:tab>
+
+            </p:accordionPanel>
+        </p:panel>
+    </h:form>
+</h:body>
+</html>

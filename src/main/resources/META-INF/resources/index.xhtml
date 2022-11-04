@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+>
+<h:head>
+</h:head>
+
+<h:body>
+
+    <div class="content">
+        <h1>Home</h1>
+        <div class="links">
+            <h:link outcome="analyse-customer-names" value="Analyse"/>
+        </div>
+    </div>
+
+    <h:outputStylesheet>
+            body {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+                padding: 0;
+                margin: 0;
+                font-family: "Open Sans", sans-serif, Helvetica, sans-serif;
+                font-size: 16px;
+            }
+
+
+            .content {
+                background-color: white;
+                padding: 30px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+            }
+
+
+            .links {
+                display: grid;
+                grid-template-columns: 220px 220px 220px;
+                grid-template-rows: 110px 110px 110px 110px 110px;
+                grid-gap: 5px;
+                font-size: 1.5rem;
+            }
+
+            .links > span {
+                color: gray;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .links a {
+                color: white;
+                background-color: #ec6608;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-decoration: none;
+            }
+
+            .links a:hover {
+                color: black;
+                background-color: white;
+            }
+
+            .links span {
+                margin-right: 5px;
+            }
+
+    </h:outputStylesheet>
+
+
+</h:body>
+</html>
