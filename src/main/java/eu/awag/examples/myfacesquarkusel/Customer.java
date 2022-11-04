@@ -1,4 +1,4 @@
-package eu.awag.examples.myfacesqurkusel;
+package eu.awag.examples.myfacesquarkusel;
 
 import java.util.HashSet;
 import java.util.List;

@@ -1,4 +1,4 @@
-package eu.awag.examples.myfacesqurkusel;
+package eu.awag.examples.myfacesquarkusel;
 
 import me.xdrop.fuzzywuzzy.FuzzySearch;
 import me.xdrop.fuzzywuzzy.model.ExtractedResult;
